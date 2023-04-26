@@ -164,6 +164,7 @@ class DetailParentViewController: UIViewController {
         viewDidAppear calls this upon initial presentation.  The tabBarController.didSlect delegate also calls it.
     */
     func updateUserActivity() {
+        print("🍎 DetailPage: updateUserActivity()")
         var currentUserActivity = view.window?.windowScene?.userActivity
         if currentUserActivity == nil {
             /** Note: You must include the activityType string below in your Info.plist file under the `NSUserActivityTypes` array.
@@ -236,9 +237,14 @@ extension DetailParentViewController {
     static let restorePresentedEditorKey = "presentedEditor" // Indicates whether the system presented the editor view controller.
     static let restoreEditorKey = "editor" // The stored editor view controller.
 
+    /// 將ViewController的狀態Encode起來。
+    ///
+    /// -Authors: Tomtom Chu
+    /// -Date: 2023.4.26
     override func encodeRestorableState(with coder: NSCoder) {
         super.encodeRestorableState(with: coder)
 
+        // 以DetailParentViewController.restoreProductKey，儲存當前的product的identifier。
         coder.encode(product.identifier.uuidString, forKey: DetailParentViewController.restoreProductKey)
         
         /** Because you’re using a custom container view controller (to hold the UITabBarController),
@@ -246,26 +252,40 @@ extension DetailParentViewController {
             This allows the system to call encodeRestorableState/decodeRestorableState functions for each child.
             Note: Each child you encode must have a unique restoration identifier.
         */
+        // 以DetailParentViewController.tabbarControllery作為Key，儲存當前的parentTabbarController。
         coder.encode(parentTabbarController, forKey: DetailParentViewController.tabbarController)
         
         // Save the tab bar's selected index page.
+        // 以DetailParentViewController.restoreSelectedTabKey作為Key，儲存目前的Tab SelectedIndex(Tab頁面index)。
         coder.encode(parentTabbarController.selectedIndex, forKey: DetailParentViewController.restoreSelectedTabKey)
         
+        /// presentedViewController是ViewController的屬性，
+        ///
+        /// -Authors: Tomtom Chu
+        /// -Date: 2023.4.26
         if let presentedNavController = presentedViewController as? UINavigationController {
             let presentedViewController = presentedNavController.topViewController
             
             // Note: You don't need to encode the navigation controller.
+            // 儲存當前的ViewController是否是EditViewController。
             coder.encode(presentedViewController is EditViewController, forKey: DetailParentViewController.restorePresentedEditorKey)
             
             /** EditViewController is a presented or child view controller so you must encode it to restore it.
                 This allows the system to call encodeRestorableState/decodeRestorableState functions for the EditViewController.
             */
+            ///
+            ///
+            /// 看不懂？？
+            ///
+            /// -Authors: Tomtom Chu
+            /// -Date: 2023.4.26
             coder.encode(presentedViewController, forKey: DetailParentViewController.restoreEditorKey)
         }
     }
 
     override func decodeRestorableState(with coder: NSCoder) {
         super.decodeRestorableState(with: coder)
+        print("🐞 decodeRestorableState")
 
         guard let decodedProductIdentifier = coder.decodeObject(forKey: DetailParentViewController.restoreProductKey) as? String else {
             fatalError("A product did not exist in the restore. In your app, handle this gracefully.")

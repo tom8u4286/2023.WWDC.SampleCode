@@ -75,6 +75,11 @@ extension SceneDelegate {
          if let userInfo = activity.userInfo {
              // Decode the user activity product identifier from the userInfo.
              if let productIdentifier = userInfo[SceneDelegate.productKey] as? String {
+                 
+                 /// 以productIdentifier，從DataModel中取得Product實體。
+                 ///
+                 /// -Authors: Tomtom Chu
+                 /// -Date: 2023.4.26
                  product = DataModelManager.sharedInstance.product(fromIdentifier: productIdentifier)
              }
          }

@@ -62,6 +62,7 @@ class DataModelManager {
         return dataModel.products
     }
     
+    // 以Product名稱，找出DataModel中的特定Product。
     func product(fromTitle: String) -> Product? {
         let filteredProducts = dataModel.products.filter { product in
             let productTitle = product.name.lowercased()
@@ -74,6 +75,7 @@ class DataModelManager {
         }
     }
     
+    // 以product identifier，找出DataModel中的特定Product。
     func product(fromIdentifier: String) -> Product? {
         let filteredProducts = dataModel.products.filter { product in
             let productIdentifier = product.identifier.uuidString
@@ -99,10 +101,22 @@ class DataModelManager {
 
 // MARK: - Data Model
 
+/// 儲存Product陣列的資料結構。
+///
+/// -Authors: Tomtom Chu
+/// -Date: 2023.4.26
 struct DataModel: Codable {
     
     var products: [Product] = []
     
+    /// 有關於CodingKey類別的說明，可參考：
+    /// https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/利用-enum-codingkeys-客製-json-對應的-property-1b27f29c0c32
+    ///
+    /// 主要的功能就是將JSON解析出來Key值，對應到這個Struct的變數中。
+    /// 但是目前我們的JSON檔的Key值都與變數都相同，因此不需要另外在撰寫如 case name = "nameOfProudct" 等等。
+    ///
+    /// -Authors: Tomtom Chu
+    /// -Date: 2023.4.26
     private enum CodingKeys: String, CodingKey {
         case products
     }

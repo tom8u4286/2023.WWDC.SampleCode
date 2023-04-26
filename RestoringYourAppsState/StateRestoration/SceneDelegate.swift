@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     /// 我們不需要自己創建者個session，在我們創建一個Scene時，系統會自動幫Scene創建一個session。
     ///
     /// -Authors: Tomtom Chu
-    /// -Date: 2023.
+    /// -Date: 2023.4.26
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         /// Determine the user activity from a new connection or from a session's state restoration.
