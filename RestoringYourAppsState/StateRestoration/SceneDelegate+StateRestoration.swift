@@ -61,7 +61,15 @@ extension SceneDelegate {
         return scene.userActivity
     }
 
-    // Utility function to return a Product instance from the input user activity.
+    /// Utility function to return a Product instance from the input user activity.
+    ///
+    /// 從activity的userInfo中，取出上次離開App時，當下的頁面的Product。
+    ///
+    /// class  function說明：
+    /// 用class 宣告的 function，只會在class可以呼叫，instance不會有。
+    ///
+    /// -Authors: Tomtom Chu
+    /// -Date: 2023.4.26
     class func product(for activity: NSUserActivity) -> Product? {
          var product: Product!
          if let userInfo = activity.userInfo {
