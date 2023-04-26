@@ -119,9 +119,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 /// 去Decode(解碼)DataModel先前儲存的Product資料，
                 /// 並且assign給detailParentViewController的product變數。
                 ///
+                /// 注意：當User在上次離開App前，頁面停留在某Product的Detail頁面時，
+                /// userInfo[SceneDelegate.productKey]才會有值。
+                ///
                 /// -Authors: Tomtom Chu
                 /// -Date: 2023.4.25
                 if let productIdentifier = userInfo[SceneDelegate.productKey] as? String {
+                    print("🐷 productIdentifier")
                     let product = DataModelManager.sharedInstance.product(fromIdentifier: productIdentifier)
                     detailParentViewController.product = product
                 }
@@ -133,11 +137,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 /// -Authors: Tomtom Chu
                 /// -Date: 2023.4.25
                 if let selectedTab = userInfo[SceneDelegate.selectedTabKey] as? Int {
+                    print("🐶 selectedTab有值。")
                     detailParentViewController.restoredSelectedTab = selectedTab
                 }
                 
                 // Push the detail view controller for the user activity product.
                 if let navigationController = window?.rootViewController as? UINavigationController {
+                    print("🍎 navigationController有值")
                     navigationController.pushViewController(detailParentViewController, animated: false)
                 }
                 
