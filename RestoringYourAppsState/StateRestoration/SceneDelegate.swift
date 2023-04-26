@@ -21,15 +21,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         When using a storyboard file, as specified by the Info.plist key, UISceneStoryboardFile, the system automatically configures
         the window property and attaches it to the windowScene.
  
-        Remember to retain the SceneDelegate's UIWindow.
+        Remember to retain(保留、留住) the SceneDelegate's UIWindow.
         The recommended approach is for the SceneDelegate to retain the scene's window.
     */
+    /// 每一個Scene都會有一個自己的、獨一的UISceneSession，
+    /// 這個session包含了一個獨一的identifier以及Scene的相關設定值。
+    /// 我們不需要自己創建者個session，在我們創建一個Scene時，系統會自動幫Scene創建一個session。
+    ///
+    /// -Authors: Tomtom Chu
+    /// -Date: 2023.
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         /// Determine the user activity from a new connection or from a session's state restoration.
         ///
         /// userActivity可以用來記錄使用者的狀態，例如「檢視App中的內容」、「正在編輯文件」、「正在瀏覽網頁」、「正在觀看影片」等等。
         /// iOS系統會使用userActivity來回復(restore)上次的使用者狀態。
+        ///
+        /// 根據官方文件，在重新連接Scene(reconnecting)時，UISceneSession的stateRestorationActivity會提供UserActivity。
         ///
         /// -Authors: Tomtom Chu
         /// -Date: 2023.4.25
@@ -46,7 +54,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             // Mark this scene's session with this userActivity product identifier so you can update the UI later.
             if let sessionProduct = SceneDelegate.product(for: userActivity) {
-                /// userInfo是一個Key-Value的儲存資料方式。
+                /// userInfo是一個以Key-Value的儲存資料的變數。
+                ///
+                /// NSUserActivity與UISceneSession都有userInfo，可以儲存資訊。
+                /// 在SceneDelegate+StateRestoration.swift檔案中，有宣告幾種key值。SceneDelegate.productIdentifierKey是其中一種。
                 ///
                 /// -Authors: Tomtom Chu
                 /// -Date: 2023.4.25
@@ -57,12 +68,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             Swift.debugPrint("Failed to restore scene from \(userActivity)")
         }
         
-        /** Set up the activation predicates to determine which scenes to activate.
+        /** Set up the activation predicates(術語) to determine which scenes to activate.
             Restrictions:
                 Block-based predicates are not allowed.
                 Regular expression predicates are not allowed.
                 The only keyPath you can reference is "self".
         */
+        /// 定義系統啟動(activate)一個Scene的條件。
+        ///
+        /// -Authors: Tomtom Chu
+        /// -Date: 2023.4.26
         let conditions = scene.activationConditions
         
         // The primary "can" predicate (the kind of content this scene can display — specific targetContentIdenfiers).
@@ -187,6 +202,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     /// -Date: 2023.4.26
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Save any pending changes to the product list.
+        // 儲存資料
         DataModelManager.sharedInstance.saveDataModel()
     }
 

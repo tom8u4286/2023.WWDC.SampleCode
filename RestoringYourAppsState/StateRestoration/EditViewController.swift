@@ -7,6 +7,10 @@ View controller for editing the product's data.
 
 import UIKit
 
+/// 下方彈出式卡片，可進行product資料編輯。
+///
+/// -Authors: Tomtom Chu
+/// -Date: 2023.4.25
 class EditViewController: UITableViewController {
     
     static let storyboardName = "EditViewController"
@@ -25,10 +29,16 @@ class EditViewController: UITableViewController {
     var restoredPrice: String!
     var restoredYear: String!
     
+    /// 當完成編輯時，呼叫DoneEditDelegate的doneEdit()
+    /// DetailParentViewController會遵循DoneEditDelegate。
+    ///
+    /// -Authors: Tomtom Chu
+    /// -Date: 2023.4.25
     weak var doneDelegate: DoneEditDelegate?
     
     // MARK: - Storyboard Support
     
+    // 載入Storyboard的EditViewController
     class func loadEditViewController() -> UINavigationController? {
         let storyboard = UIStoryboard(name: storyboardName, bundle: .main)
         if let navigationController =

@@ -48,18 +48,25 @@ class DetailParentViewController: UIViewController {
             // For iOS 13 and later, restore the editor from the user activity state.
             
             // Restore and present the EditViewController?
+            // 復原編輯卡片欄位內容 並 顯示卡片
             if let activityUserInfo = view.window?.windowScene?.userActivity?.userInfo {
                 if activityUserInfo[SceneDelegate.presentedEditorKey] != nil {
+                    
                     // Restore the edit view controller.
+                    // 復原 EditViewController
+                    // 載入Storyboard的EditViewController，
                     if let editNavViewController = EditViewController.loadEditViewController() {
                         if let editViewController = editNavViewController.topViewController as? EditViewController {
+                            // 將editViewController的product Assign給本頁的product
                             editViewController.product = product
                             
                             // Restore the edit fields.
+                            // 復原 編輯欄位
                             editViewController.restoredTitle = activityUserInfo[SceneDelegate.editorTitleKey] as? String
                             editViewController.restoredPrice = activityUserInfo[SceneDelegate.editorPriceKey] as? String
                             editViewController.restoredYear = activityUserInfo[SceneDelegate.editorYearKey] as? String
                             
+                            // 顯示本彈出式編輯卡片
                             self.present(editNavViewController, animated: false, completion: nil)
                         }
                     }
